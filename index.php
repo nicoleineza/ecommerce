@@ -14,10 +14,10 @@
     <div class="nav-bar">
         <span class="website-name">MyCraft</span>
         <div class="nav-links">
-    <a href="../lab 1/views/services.php" class="nav-link btn" id="login-link">Products</a>
-    <a href="../lab 1/views/brand.php" class="nav-link btn" id="login-link">Brands</a>
-    <a href="../lab 1/views/login.php" class="nav-link btn" id="login-link">Login</a>
-    <a href="../lab 1/views/register.php" class="nav-link btn" id="register-link">Register</a>
+    <a href="../ecommerce/views/services.php" class="nav-link btn" id="login-link">Products</a>
+    <a href="../ecommerce/views/brand.php" class="nav-link btn" id="login-link">Brands</a>
+    <a href="../ecommerce/views/login.php" class="nav-link btn" id="login-link">Login</a>
+    <a href="../ecommerce/views/register.php" class="nav-link btn" id="register-link">Register</a>
     
     
 </div>
