@@ -17,40 +17,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imena - Login</title>
-    <link rel="stylesheet" href="../css/services.css"> <!-- Ensure the path is correct -->
-    <style>
-        /* Style for session messages */
-        .message {
-            padding: 10px;
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .error-message {
-            padding: 10px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/landing.css"> <!-- Ensure the path is correct -->
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Imena</h1>
-            <p>Buy from Rwanda, Ship anywhere</p>
+    <header class="hero">
+        <div class="container">
+            <h1>Welcome to <span>Imena Mart</span></h1>
+            <p>Your gateway to exclusive luxury products made in Rwanda</p>
         </div>
     </header>
 
-    <main class="login-container">
-        <form action="login.php" method="POST" class="login-form">
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="../views/shop.php">Shop Now!</a></li>
+                <li><a href="../views/customer_register.php">Register as Customer</a></li>
+                <li><a href="../views/seller_register.php">Register as Seller</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <form action="login.php" method="POST" class="form-container">
             <h2>Login to Your Account</h2>
 
             <!-- Display session message if it exists -->
@@ -72,20 +60,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required placeholder="Enter your email">
+                <input type="email" name="email" id="email" class="form-input" required placeholder="Enter your email">
             </div>
 
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required placeholder="Enter your password">
+                <input type="password" name="password" id="password" class="form-input" required placeholder="Enter your password">
             </div>
 
-            <input type="submit" value="Login" class="btn-submit">
+            <input type="submit" value="Login" class="btn">
         </form>
-    </main>
+    </div>
 
     <footer>
-        <p>&copy; 2024 Imena. All Rights Reserved.</p>
+        <div class="container">
+            <p>&copy; 2024 Imena Mart | Luxury Products Made in Rwanda</p>
+        </div>
     </footer>
 </body>
 </html>

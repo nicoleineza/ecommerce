@@ -76,6 +76,12 @@ class Product {
         return $this->db->db_fetch_all($sql);
     }
 
+    // Get products by seller ID
+    public function getProductsBySeller($sellerId) {
+        $sql = "SELECT * FROM products WHERE seller_id = '$sellerId'";
+        return $this->db->db_fetch_all($sql);
+    }
+
     // Update only the product description
     public function updateProductDescription($product_id, $product_desc) {
         // SQL query to update only the product description

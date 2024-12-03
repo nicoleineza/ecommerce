@@ -1,6 +1,6 @@
 /* General styles for uniformity */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     color: #333;
     margin: 0;
@@ -9,7 +9,7 @@ body {
 
 /* Header styles */
 header {
-    background-color: #ff6f61; /* Dark Green */
+    background-color: #6a0572; /* Primary Brand Color */
     color: white;
     padding: 15px;
     text-align: center;
@@ -27,7 +27,7 @@ header p {
 
 /* Button Styling */
 button {
-    background-color: #ff6f61; /* Dark Green */
+    background-color: #6a0572; /* Primary Brand Color */
     color: white;
     padding: 10px 20px;
     margin: 10px;
@@ -35,10 +35,12 @@ button {
     border-radius: 5px;
     font-size: 1em;
     border: none;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
-    background-color: #ff6f61; /* Darker Green */
+    background-color: #ffdc73; /* Accent Color */
+    color: #6a0572; /* Primary Brand Color */
 }
 
 /* Sidebar Styles */
@@ -88,36 +90,56 @@ button:hover {
     padding: 20px;
 }
 
-.product-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-.product-card {
-    background-color: white;
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th, table td {
     border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 30%;
-    box-sizing: border-box;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 12px;
     text-align: center;
 }
 
-.product-card img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 10px;
+table th {
+    background-color: #6a0572; /* Primary Brand Color */
+    color: white;
 }
 
-.product-card h3 {
-    margin: 10px 0;
-    font-size: 1.2em;
+table td {
+    background-color: white;
 }
 
-/* Error messages */
+/* Table Row Hover */
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Action Buttons for Table */
+button {
+    background-color: #ffdc73; /* Accent Color */
+    color: #6a0572; /* Primary Brand Color */
+    padding: 8px 16px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #6a0572; /* Primary Brand Color */
+    color: white;
+}
+
+/* Error message */
 .error-message {
     color: red;
     margin: 10px 0;
@@ -132,53 +154,4 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    margin: 10% auto;
-    padding: 20px;
-    background-color: white;
-    width: 80%;
-    border-radius: 8px;
-}
-
-.close {
-    color: red;
-    float: right;
-    font-size: 1.5em;
-    cursor: pointer;
-}
-
-/* Add Product Form Styling */
-#add_product_form {
-    display: none;
-}
-
-#add_product_form input,
-#add_product_form select,
-#add_product_form textarea {
-    margin-bottom: 10px;
-}
-
-/* Category Selection */
-select {
-    font-size: 16px;
-}
-
-/* Product Title */
-h2 {
-    font-size: 24px;
 }

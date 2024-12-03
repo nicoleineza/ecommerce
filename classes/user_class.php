@@ -45,6 +45,13 @@ class User {
         return $result ? $result['user_name'] : null;  // Return user name if found, else null
     }
 
+    // Fetch user data by user_id (to fetch seller details)
+    public function get_user_by_id($user_id) {
+        $user_id = $this->db->db_escape_string($user_id);
+        $sql = "SELECT * FROM `users` WHERE `user_id` = '$user_id'";
+        return $this->db->db_fetch_one($sql);
+    }
+
     // Check if email already exists
     public function email_exists($email) {
         $email = $this->db->db_escape_string($email);
@@ -76,6 +83,13 @@ class User {
         }
 
         return false; // Authentication failed
+    }
+
+    // Get all users by role (e.g., 'seller')
+    public function get_users_by_role($role) {
+        $role = $this->db->db_escape_string($role);
+        $sql = "SELECT * FROM `users` WHERE `user_role` = '$role'";
+        return $this->db->db_fetch_all($sql);
     }
 }
 ?>

@@ -82,45 +82,75 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imena - Seller Registration</title>
-    <link rel="stylesheet" href="../css/services.css">
+    <link rel="stylesheet" href="../css/landing.css"> <!-- Use landing.css for consistent design -->
 </head>
 <body>
-    <header>
-        <h1>Imena</h1>
-        <p>Buy from Rwanda, Ship anywhere</p>
+    <header class="hero">
+        <div class="container">
+            <h1>Welcome to <span>Imena Mart</span></h1>
+            <p>Your gateway to exclusive luxury products made in Rwanda</p>
+        </div>
     </header>
 
-    <form action="seller_register.php" method="POST">
-        <h2>Seller Registration</h2>
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="../views/shop.php">Shop Now!</a></li>
+                <li><a href="../views/customer_register.php">Register as Customer</a></li>
+                <li><a href="../views/seller_register.php">Register as Seller</a></li>
+            </ul>
+        </div>
+    </nav>
 
-        <?php if (!empty($error_message)): ?>
-            <p class="error-message"><?php echo $error_message; ?></p>
-        <?php endif; ?>
+    <div class="container">
+        <form action="seller_register.php" method="POST" class="form-container">
+            <h2>Seller Registration</h2>
 
-        <?php if (!isset($_SESSION['otp_sent'])): ?>
-            <!-- Registration Form -->
-            <label for="username">Username:</label>
-            <input type="text" name="username" required><br>
+            <?php if (!empty($error_message)): ?>
+                <p class="error-message"><?php echo $error_message; ?></p>
+            <?php endif; ?>
 
-            <label for="email">Email:</label>
-            <input type="email" name="email" required><br>
+            <?php if (!isset($_SESSION['otp_sent'])): ?>
+                <!-- Registration Form -->
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" class="form-input" required>
+                </div>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" required><br>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
 
-            <label for="store_name">Store Name:</label>
-            <input type="text" name="store_name" required><br>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="form-input" required>
+                </div>
 
-            <input type="hidden" name="role" value="seller"> <!-- Role is seller -->
-            
-            <button type="submit" name="register">Register</button>
-        <?php else: ?>
-            <!-- OTP Verification Form -->
-            <label for="otp">Enter OTP sent to your email:</label>
-            <input type="text" name="otp" required><br>
+                <div class="form-group">
+                    <label for="store_name">Store Name:</label>
+                    <input type="text" name="store_name" class="form-input" required>
+                </div>
 
-            <button type="submit" name="verify_otp">Verify OTP</button>
-        <?php endif; ?>
-    </form>
+                <input type="hidden" name="role" value="seller"> <!-- Role is seller -->
+                
+                <button type="submit" name="register" class="btn">Register</button>
+            <?php else: ?>
+                <!-- OTP Verification Form -->
+                <div class="form-group">
+                    <label for="otp">Enter OTP sent to your email:</label>
+                    <input type="text" name="otp" class="form-input" required>
+                </div>
+
+                <button type="submit" name="verify_otp" class="btn">Verify OTP</button>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Imena Mart | Luxury Products Made in Rwanda</p>
+        </div>
+    </footer>
 </body>
 </html>

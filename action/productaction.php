@@ -28,7 +28,7 @@ function addProductAction($controller) {
     if (is_string($result)) {
         echo $result;  // Show error message if returned by controller
     } else {
-        header('Location: product.php');  // Redirect to the product view page
+        header('Location: ../views/product.php');  // Redirect to the product view page
         exit;
     }
 }

@@ -2,7 +2,6 @@
 session_start();
 
 // Ensure the admin is logged in
-
 require_once '../Controllers/seller_controller.php'; // Include the controller to handle seller operations
 $sellerController = new SellerController();
 
@@ -37,7 +36,104 @@ if (isset($_GET['action'], $_GET['id'], $_GET['status'])) {
     <title>Admin Panel</title>
     <link rel="stylesheet" href="../css/admin.css">
     <style>
-        /* Modal styles */
+        /* General Layout */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #6a0572;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sidebar h2 {
+            color: #ffdc73;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .sidebar ul li a:hover {
+            color: #ffdc73;
+        }
+
+        /* Main Content Area */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .content h1 {
+            color: #6a0572;
+        }
+
+        .content h2 {
+            margin-top: 20px;
+            color: #6a0572;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            background-color: #007bff;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -76,7 +172,6 @@ if (isset($_GET['action'], $_GET['id'], $_GET['status'])) {
             cursor: pointer;
         }
 
-        /* Ensure iframe content fits */
         iframe {
             width: 100%;
             height: 500px;
@@ -88,8 +183,8 @@ if (isset($_GET['action'], $_GET['id'], $_GET['status'])) {
         <h2>Admin Panel</h2>
         <ul>
             <li><a href="services.php">Product Management</a></li>
-            <li><a href="categories.php">Brand/Category Management</a></li>
-            <li><a href="settings.php">Settings</a></li>
+            <li><a href="categories.php">Category Management</a></li>
+            <li><a href="logout.php">Log out</a></li>
         </ul>
     </aside>
 
@@ -186,6 +281,5 @@ if (isset($_GET['action'], $_GET['id'], $_GET['status'])) {
         };
     </script>
 
-    <script src="../js/admin.js"></script>
 </body>
 </html>

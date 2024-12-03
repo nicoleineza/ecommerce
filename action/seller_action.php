@@ -16,7 +16,10 @@ class SellerAction {
         // Get the seller details (including user_name) for display
         $pendingSellers = $this->controller->getPendingSellers();
 
-        // Include the dashboard view with the pending sellers data
+        // Get the seller's stories
+        $sellerStories = $this->controller->getSellerStory($userId);
+
+        // Include the dashboard view with the pending sellers and stories data
         include '../views/dashboard.php'; 
     }
 
@@ -63,6 +66,21 @@ class SellerAction {
         }
     }
 
+    // Handle adding a new seller story
+    public function handleAddStory($userId) {
+        // Check if the form is submitted with content
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
+            $content = $_POST['content'];
+
+            // Add the seller's story (no title required)
+            $this->controller->addSellerStory($userId, $content);  // Store the content in the store_story field
+
+            // After adding the story, redirect to the dashboard
+            header("Location: ../views/dashboard.php");
+            exit;
+        }
+    }
+
     // Helper function to determine the document type from MIME type
     private function getDocumentType($fileType) {
         // Map MIME types to document types
@@ -90,6 +108,9 @@ if ($userId) {
     if (isset($_GET['action']) && $_GET['action'] === 'submit_verification') {
         // Handle the verification document submission
         $action->handleVerificationSubmission($userId);
+    } elseif (isset($_GET['action']) && $_GET['action'] === 'add_story') {
+        // Handle adding a new seller story
+        $action->handleAddStory($userId);
     } else {
         // Otherwise, load the seller dashboard
         $action->handleDashboardAccess($userId);

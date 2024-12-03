@@ -33,6 +33,8 @@ if ($verificationStatus === 'Approved') {
     $totalProducts = count($productController->getAllProducts()); // Adjust based on how you want to fetch the total products
 }
 
+// Fetch seller stories
+$sellerStories = $sellerController->getSellerStory($seller_id);
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +43,7 @@ if ($verificationStatus === 'Approved') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../css/general.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
@@ -75,7 +77,7 @@ if ($verificationStatus === 'Approved') {
             <?php if ($verificationStatus === 'Pending'): ?>
                 <p>Your verification is currently pending. You cannot submit new documents until the current verification process is completed.</p>
             <?php elseif ($verificationStatus !== 'Approved'): ?>
-                <p>Your account is not approved yet. Please submit your verification document below.</p>
+                <p>Your account is not approved yet. Please submit your trade licence to start selling.</p>
                 <p>Accepted document types: PDF, PNG, JPG, JPEG</p>
                 <form action="../action/seller_action.php?action=submit_verification" method="POST" enctype="multipart/form-data">
                     <label for="document">Upload Document:</label>
@@ -119,6 +121,31 @@ if ($verificationStatus === 'Approved') {
                     </a>
                 </div>
             </section>
+
+            <!-- Seller Stories Section 
+            <section class="seller-stories">
+                <h3>Your Stories</h3>
+                <?php if ($sellerStories): ?>
+                    <ul>
+                        <?php foreach ($sellerStories as $story): ?>
+                            <li>
+                                <h4><?= htmlspecialchars($story['title']); ?></h4>
+                                <p><?= nl2br(htmlspecialchars($story['content'])); ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p>Share your entrepreneurial journey with your customers!</p>
+                <?php endif; ?>
+                
+                <h4>Add a New Story</h4>
+                <form action="../action/seller_action.php?action=add_story" method="POST">
+                    <label for="content">Story Content:</label>
+                    <textarea name="content" rows="4" required></textarea><br><br>
+
+                    <button type="submit">Add Story</button>
+                </form>
+            </section>-->
         <?php endif; ?>
     </main>
 </div>

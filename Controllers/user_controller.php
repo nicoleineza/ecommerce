@@ -99,7 +99,7 @@ class UserAction {
                     header("Location: product.php"); // Redirect to seller dashboard
                     exit();
                 } else {
-                    header("Location: admin_dashboard.php"); // Redirect to admin dashboard
+                    header("Location: admin.php"); // Redirect to admin dashboard
                     exit();
                 }
             } else {
@@ -134,6 +134,16 @@ class UserAction {
         } catch (Exception $e) {
             echo "Mailer Error: {$mail->ErrorInfo}";
         }
+    }
+
+    // Fetch all users with the 'seller' role
+    public function getUsersByRole($role) {
+        return $this->user_model->get_users_by_role($role);  // Assume this method exists in the User model
+    }
+
+    // Fetch seller details by seller_id
+    public function getSellerById($seller_id) {
+        return $this->user_model->get_user_by_id($seller_id);  // Fetch the seller's details using their user_id
     }
 }
 ?>

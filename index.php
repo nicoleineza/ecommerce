@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Imena Mart - Luxury Products Made in Rwanda</title>
-    <link rel="stylesheet" href="../css/landing.css">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
     <header class="hero">
@@ -19,9 +19,9 @@
     <nav class="main-nav">
         <div class="container">
             <ul>
-                <li><a href="../views/shop.php">Shop Now!</a></li>
-                <li><a href="../views/customer_register.php">Register and start your shopping journey</a></li>
-                <li><a href="../views/seller_register.php">Register and start Selling with us</a></li>
+                <li><a href="views/shop.php">Shop Now!</a></li>
+                <li><a href="views/customer_register.php">Register and start your shopping journey</a></li>
+                <li><a href="views/seller_register.php">Register and start Selling with us</a></li>
             </ul>
         </div>
     </nav>

@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once '../Controllers/productcontroller.php';
+require_once '../Controllers/user_controller.php'; // Add the user controller to fetch sellers
 $productsController = new ProductController();
+$userController = new User(); // Assuming you have a controller for users
 
 // Fetch filters and search term
 $minPrice = isset($_GET['min_price']) ? (float)$_GET['min_price'] : null;
@@ -10,6 +12,9 @@ $searchTerm = isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '';
 
 // Fetch filtered and searched products
 $products = $productsController->getProducts($minPrice, $maxPrice, $searchTerm);
+
+// Fetch featured sellers
+$sellers = $userController->get_users_by_role('seller'); // Corrected method name to match updated function
 ?>
 
 <!DOCTYPE html>
@@ -17,53 +22,116 @@ $products = $productsController->getProducts($minPrice, $maxPrice, $searchTerm);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMENA -Shop</title>
+    <title>IMENA - Shop</title>
     <link rel="stylesheet" href="../css/shop.css">
+    <style>
+        /* Add some styles for the slideshow */
+        .seller-slideshow {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+        .slideshow-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .seller-card {
+            width: 100%;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 5px;
+            text-align: center;
+        }
+        .seller-name {
+            margin-top: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .slideshow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+        .prev-btn {
+            left: 10px;
+        }
+        .next-btn {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Motto Section -->
+    <section class="hero">
+        <h1>Welcome to <span>IMENA</span> Shop</h1>
+        <p>Your ultimate destination for Rwandan luxury fashion.</p>
+    </section>
+
     <!-- Header Section -->
-    <header>
-        <div class="logo">
-            <h1><a href="shop.php">IMENA</a></h1>
+    <header class="main-nav">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="shop.php">Shop</a></li>
+                    <li><a href="cart.php">Cart</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </nav>
         </div>
-        <nav>
-            <ul>
-                <li><a href="shop.php">Shop</a></li>
-                <li><a href="cart.php">Cart</a></li>
-            </ul>
-        </nav>
     </header>
 
-    <!-- Motto Section -->
-    <div class="motto">
-        <p>Buy from Rwanda, Ship to the World</p>
-    </div>
+    <!-- Featured Sellers Slideshow Section -->
+    <section class="seller-slideshow">
+        <h2>Featured Sellers</h2>
+        <div class="slideshow-container">
+            <?php foreach ($sellers as $seller): ?>
+                <div class="seller-card">
+                    <a href="seller_shop.php?seller_id=<?php echo $seller['user_id']; ?>" class="seller-link">
+                        <p class="seller-name"><?php echo htmlspecialchars($seller['user_name']); ?></p>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <button class="slideshow-btn prev-btn" onclick="moveSlide(-1)">❮</button>
+        <button class="slideshow-btn next-btn" onclick="moveSlide(1)">❯</button>
+    </section>
 
     <!-- Main Content -->
     <div class="container">
-        <h1>Available Products</h1>
+        <h2 class="section-title">Available Products</h2>
 
         <?php if (isset($_SESSION['message'])): ?>
-            <p class="success-message"><?php echo htmlspecialchars($_SESSION['message']); ?></p>
-            <?php unset($_SESSION['message']); ?>
+            <div class="message success">
+                <?php echo htmlspecialchars($_SESSION['message']); ?>
+                <?php unset($_SESSION['message']); ?>
+            </div>
         <?php endif; ?>
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <form method="GET" action="">
+        <!-- Search Bar and Filters -->
+        <div class="filters">
+            <form method="GET" class="search-form">
                 <input type="text" name="search" placeholder="Search for products..." value="<?php echo $searchTerm; ?>" aria-label="Search for products">
-                <button type="submit">Search</button>
+                <button type="submit" class="btn">Search</button>
+            </form>
+            <form method="GET" class="filter-form">
+                <label for="min-price">Min Price:</label>
+                <input type="number" id="min-price" name="min_price" value="<?php echo htmlspecialchars($_GET['min_price'] ?? ''); ?>" min="0">
+                <label for="max-price">Max Price:</label>
+                <input type="number" id="max-price" name="max_price" value="<?php echo htmlspecialchars($_GET['max_price'] ?? ''); ?>" min="0">
+                <button type="submit" class="btn">Apply</button>
             </form>
         </div>
-
-        <!-- Filter Form -->
-        <form class="filter-form" method="GET" action="">
-            <label for="min-price">Min Price:</label>
-            <input type="number" id="min-price" name="min_price" value="<?php echo htmlspecialchars($_GET['min_price'] ?? ''); ?>" min="0">
-            <label for="max-price">Max Price:</label>
-            <input type="number" id="max-price" name="max_price" value="<?php echo htmlspecialchars($_GET['max_price'] ?? ''); ?>" min="0">
-            <button type="submit">Filter</button>
-        </form>
 
         <!-- Product Grid -->
         <div class="product-grid">
@@ -73,11 +141,7 @@ $products = $productsController->getProducts($minPrice, $maxPrice, $searchTerm);
                         <a href="details.php?product_id=<?php echo htmlspecialchars($product['product_id']); ?>" class="product-link">
                             <?php 
                             $imagePath = !empty($product['product_image']) ? '../' . $product['product_image'] : '../assets/default-image.png';
-                            if (file_exists($imagePath)): 
-                                echo "<img src='{$imagePath}' alt='Product Image'>";
-                            else: 
-                                echo "<img src='../assets/default-image.png' alt='Default Image'>";
-                            endif; 
+                            echo "<img src='{$imagePath}' alt='Product Image'>";
                             ?>
                             <h3><?php echo htmlspecialchars($product['product_title']); ?></h3>
                         </a>
@@ -90,16 +154,35 @@ $products = $productsController->getProducts($minPrice, $maxPrice, $searchTerm);
                             <button onclick="adjustQuantity(<?php echo $product['product_id']; ?>, 'increase')">+</button>
                         </div>
 
-                        <button class="btn-add" onclick="addToCart(<?php echo $product['product_id']; ?>)">Add to Cart</button>
+                        <button class="btn btn-add" onclick="addToCart(<?php echo $product['product_id']; ?>)">Add to Cart</button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p>No products found for the selected criteria.</p>
+                <p class="no-products">No products found for the selected criteria.</p>
             <?php endif; ?>
         </div>
     </div>
 
+    <footer>
+        <p>&copy; <?php echo date("Y"); ?> IMENA. All rights reserved.</p>
+    </footer>
+
     <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.seller-card');
+        
+        function moveSlide(step) {
+            slideIndex += step;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            document.querySelector('.slideshow-container').style.transform = `translateX(-${slideIndex * 100}%)`;
+        }
+
+        // Automatic slideshow
+        setInterval(function() {
+            moveSlide(1);
+        }, 3000); // Change slide every 3 seconds
+
         function adjustQuantity(productId, action) {
             const quantityInput = document.getElementById(`quantity-${productId}`);
             let currentQuantity = parseInt(quantityInput.value);

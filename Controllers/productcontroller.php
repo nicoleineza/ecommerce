@@ -106,5 +106,10 @@ class ProductController {
         }
         return $this->productModel->get_all_products();
     }
+
+    // Get products by seller
+    public function getProductsBySeller($sellerId) {
+        return $this->productModel->getProductsBySeller($sellerId);
+    }
 }
 ?>
