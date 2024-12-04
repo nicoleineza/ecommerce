@@ -55,7 +55,7 @@ $orders = $orderController->fetchSellerOrders($seller_id);
                 <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="product.php">Manage Products</a></li>
                 <li><a href="order_management.php">Order Management</a></li>
-                <a href="transaction.php">My finances</a>
+                <li><a href="transaction.php">My finances</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
