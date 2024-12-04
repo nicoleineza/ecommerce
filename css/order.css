@@ -1,0 +1,273 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    margin: 0;
+}
+
+/* Header Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('hero-bg.jpg') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero h1 span {
+    color: #ffdc73;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.hero .btn {
+    display: inline-block;
+    background: #6a0572;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.hero .btn:hover {
+    background: #ffdc73;
+    color: #6a0572;
+}
+
+/* Navigation Bar */
+.main-nav {
+    background: #6a0572;
+    color: white;
+    padding: 15px 0;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.main-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.main-nav ul li a:hover {
+    background: #ffdc73;
+    color: #6a0572;
+}
+
+/* Main Content Section */
+.main-content {
+    padding: 60px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.main-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #6a0572;
+}
+
+.main-content h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.main-content p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+/* Review Table */
+.review-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-table th, .review-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.review-table th {
+    background-color: #6a0572;
+    color: white;
+}
+
+.review-table td img.product-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+.review-table tr:hover {
+    background-color: #f4f4f4;
+}
+
+.review-table td select, .review-table td textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.review-table button {
+    background-color: #6a0572;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.review-table button:hover {
+    background-color: #ffdc73;
+    color: #6a0572;
+}
+
+/* Previous Orders Table */
+.previous-orders {
+    width: 100%;
+    margin-top: 40px;
+    border-collapse: collapse;
+}
+
+.previous-orders th, .previous-orders td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.previous-orders th {
+    background-color: #6a0572;
+    color: white;
+}
+
+.previous-orders tr:hover {
+    background-color: #f4f4f4;
+}
+
+.previous-orders td img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.no-orders {
+    font-size: 1.2rem;
+    color: #6a0572;
+    margin-top: 20px;
+}
+
+/* Review Form */
+#reviewForm {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#reviewForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+#reviewForm select, #reviewForm textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#reviewForm button {
+    background-color: #6a0572;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#reviewForm button:hover {
+    background-color: #ffdc73;
+    color: #6a0572;
+}
+
+/* Footer Section */
+footer {
+    background: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .order-summary, .previous-orders {
+        font-size: 0.9rem;
+    }
+
+    #reviewForm textarea {
+        font-size: 0.9rem;
+    }
+}
