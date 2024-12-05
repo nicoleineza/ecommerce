@@ -171,8 +171,6 @@ $verificationStatus = $sellerController->checkVerificationStatus($seller_id);
 
     <!-- Main Content -->
     <main class="main-content">
-        <h2>Welcome, Seller ID: <?= htmlspecialchars($seller_id); ?></h2>
-
         <!-- Verification Status -->
         <section class="verification-status">
             <h3>Verification Status: <?= htmlspecialchars($verificationStatus); ?></h3>
