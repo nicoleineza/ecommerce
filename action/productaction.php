@@ -26,11 +26,9 @@ function addProductAction($controller) {
 
     // Handle result and redirect or show an error message
     if ($result === true) {
-        // Success: Redirect to the product view page
         header('Location: ../views/product.php');
         exit;
     } else {
-        // Error: Display the error message (could be from the controller)
         echo $result;
     }
 }
@@ -67,9 +65,9 @@ function editProductAction($controller) {
 
 // Function to delete a product
 function deleteProductAction($controller) {
-    // Check if 'delete' GET parameter exists
-    if (isset($_GET['delete'])) {
-        $product_id = $_GET['delete'];
+    // Check if 'delete_product' GET parameter exists
+    if (isset($_GET['delete_product'])) {
+        $product_id = $_GET['delete_product'];
 
         // Call the controller to delete the product by product ID
         $result = $controller->deleteProduct($product_id);
@@ -88,11 +86,11 @@ function deleteProductAction($controller) {
 
 // Main action handler
 if (isset($_POST['add_product'])) {
-    addProductAction($controller); // Call the addProductAction function
+    addProductAction($controller); 
 } elseif (isset($_POST['edit_product'])) {
-    editProductAction($controller); // Call the editProductAction function
+    editProductAction($controller); 
 } elseif (isset($_GET['delete_product'])) {
-    deleteProductAction($controller); // Call the deleteProductAction function
+    deleteProductAction($controller); 
 } else {
     echo "Invalid action.";
 }
