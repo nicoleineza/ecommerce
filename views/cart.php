@@ -29,6 +29,21 @@ $exchangeRate = $exchangeRates[$selectedCurrency] ?? 1;
 $cartController = new CartController();
 $cartItems = $cartController->getCartItems($_SESSION['user_id']);
 
+// Handle update and delete actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'];
+    $productId = intval($_POST['product_id']);
+
+    if ($action === 'update') {
+        $quantity = max(1, intval($_POST['quantity'])); // Ensure minimum quantity is 1
+        $cartController->updateCartQuantity($productId, $_SESSION['user_id'], $quantity);
+    } elseif ($action === 'delete') {
+        $cartController->deleteCartItem($productId, $_SESSION['user_id']);
+    }
+    header("Location: cart.php");
+    exit();
+}
+
 // Process payment reference if provided
 if (isset($_GET['payment_reference'])) {
     $paymentReference = $_GET['payment_reference'];
@@ -69,12 +84,32 @@ if (isset($_GET['payment_reference'])) {
     <title>Your Cart</title>
     <link rel="stylesheet" href="../css/cart.css">
     <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .cart-product-image {
             width: 50px; 
             height: auto;
             margin-right: 10px;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .quantity-controls button {
+            padding: 5px 10px;
+            background-color: #6a1b9a;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .cart-actions button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -110,21 +145,16 @@ if (isset($_GET['payment_reference'])) {
                         <th>Price (<?php echo htmlspecialchars($selectedCurrency); ?>)</th>
                         <th>Quantity</th>
                         <th>Total (<?php echo htmlspecialchars($selectedCurrency); ?>)</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                     $totalAmount = 0;
-                    $totalAmountInGHS = 0;
                     foreach ($cartItems as $item):
                         $convertedPrice = $item['product_price'] * $exchangeRate;
                         $itemTotal = $convertedPrice * $item['quantity'];
                         $totalAmount += $itemTotal;
-
-                        // Convert to GHS for Paystack
-                        $priceInGHS = $item['product_price'];
-                        $itemTotalInGHS = $priceInGHS * $item['quantity'];
-                        $totalAmountInGHS += $itemTotalInGHS;
                         $imagePath = !empty($item['product_image']) ? '../' . $item['product_image'] : '../assets/default-image.png';
                     ?>
                     <tr>
@@ -134,8 +164,37 @@ if (isset($_GET['payment_reference'])) {
                             <?php echo htmlspecialchars($item['product_title']); ?>
                         </td>
                         <td><?php echo number_format($convertedPrice, 2); ?></td>
-                        <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                        <td>
+                            <div class="quantity-controls">
+                                <!-- Decrease Quantity -->
+                                <form method="POST" action="cart.php" style="display: inline;">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['product_id']); ?>">
+                                    <input type="hidden" name="quantity" value="<?php echo max(1, $item['quantity'] - 1); ?>">
+                                    <button type="submit">-</button>
+                                </form>
+
+                                <!-- Display Quantity -->
+                                <span><?php echo htmlspecialchars($item['quantity']); ?></span>
+
+                                <!-- Increase Quantity -->
+                                <form method="POST" action="cart.php" style="display: inline;">
+                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['product_id']); ?>">
+                                    <input type="hidden" name="quantity" value="<?php echo $item['quantity'] + 1; ?>">
+                                    <button type="submit">+</button>
+                                </form>
+                            </div>
+                        </td>
                         <td><?php echo number_format($itemTotal, 2); ?></td>
+                        <td>
+                            <form method="POST" action="cart.php">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($item['product_id']); ?>">
+                                <button type="submit" class="cart-actions" style="background-color: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Delete</button>
+
+                            </form>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -158,23 +217,21 @@ if (isset($_GET['payment_reference'])) {
     </footer>
 
     <script>
-        $(document).ready(function () {
-            $('#pay-now').click(function () {
-                let handler = PaystackPop.setup({
-                    key: 'pk_test_fd2673b977195c947f073a83c59cb8a57e173e87',
-                    email: "<?php echo htmlspecialchars($_SESSION['user_email']); ?>",
-                    amount: <?php echo round($totalAmountInGHS * 100); ?>,
-                    currency: "GHS",
-                    ref: "<?php echo uniqid('txn_'); ?>", 
-                    callback: function (response) {
-                        window.location.href = "cart.php?payment_reference=" + response.reference;
-                    },
-                    onClose: function () {
-                        alert("Payment process canceled.");
-                    }
-                });
-                handler.openIframe();
+        document.getElementById('pay-now').addEventListener('click', function () {
+            let handler = PaystackPop.setup({
+                key: 'pk_test_fd2673b977195c947f073a83c59cb8a57e173e87',
+                email: "<?php echo htmlspecialchars($_SESSION['user_email']); ?>",
+                amount: <?php echo round($totalAmount * 100); ?>,
+                currency: "GHS",
+                ref: "<?php echo uniqid('txn_'); ?>", 
+                callback: function (response) {
+                    window.location.href = "cart.php?payment_reference=" + response.reference;
+                },
+                onClose: function () {
+                    alert("Payment process canceled.");
+                }
             });
+            handler.openIframe();
         });
     </script>
 </body>
